@@ -4,9 +4,11 @@ defmodule CredoGitlab do
   """
   import Credo.Plugin
 
-  alias Credo.Execution
-
+  @doc """
+  Initializes the plugin.
+  """
+  @spec init(exec :: Credo.Execution.t()) :: Credo.Execution.t()
   def init(exec) do
-    exec
+    append_task(exec, :run_command, CredoGitlab.Formatter)
   end
 end
