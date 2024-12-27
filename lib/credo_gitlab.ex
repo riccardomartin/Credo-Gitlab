@@ -4,11 +4,15 @@ defmodule CredoGitlab do
   """
   import Credo.Plugin
 
+  alias CredoGitlab.Commands.GitlabFormatter
+
   @doc """
   Initializes the plugin.
   """
   @spec init(exec :: Credo.Execution.t()) :: Credo.Execution.t()
   def init(exec) do
-    append_task(exec, :run_command, CredoGitlab.Formatter)
+    exec
+    |> register_command("report.codequality", GitlabFormatter)
+    |> register_cli_switch(:file_name, :string, :f)
   end
 end

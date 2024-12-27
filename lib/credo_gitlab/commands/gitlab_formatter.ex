@@ -1,13 +1,15 @@
-defmodule CredoGitlab.Formatter do
+defmodule CredoGitlab.Commands.GitlabFormatter do
   @moduledoc """
   Formatter for GitLab Code Quality reports.
   """
-  use Credo.Execution.Task
+  use Credo.CLI.Command
 
   alias Credo.Execution
 
-  @spec call(exec :: Credo.Execution.t()) :: Credo.Execution.t()
-  def call(%Credo.Execution{} = exec) do
+  @json Application.compile_env(:credo_gitlab, :json_library)
+
+  @spec call(exec :: Credo.Execution.t(), opts :: list()) :: Credo.Execution.t()
+  def call(%Credo.Execution{} = exec, _opts) do
     exec
     |> Execution.get_command_name()
     |> maybe_run(exec)
@@ -22,7 +24,7 @@ defmodule CredoGitlab.Formatter do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> Jason.encode_to_iodata!()
+    |> @json.encode_to_iodata!()
     |> then(&File.write!(path, &1))
 
     exec
@@ -33,16 +35,13 @@ defmodule CredoGitlab.Formatter do
   @spec format_issue(issue :: map()) :: map()
   defp format_issue(
          %{
-           category: category,
            check: check,
            column: column,
            column_end: column_end,
            filename: path,
            line_no: line,
            message: description,
-           priority: priority,
-           scope: scope,
-           trigger: trigger
+           priority: priority
          } = entry
        ) do
     %{
