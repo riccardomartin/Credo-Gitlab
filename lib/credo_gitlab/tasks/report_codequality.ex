@@ -7,6 +7,8 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   alias Credo.Execution
   alias Credo.Issue
 
+  alias CredoGitlab.Encoder.Json
+
   @impl Credo.Execution.Task
   def call(exec, _opts) do
     exec
@@ -21,7 +23,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> Jason.encode_to_iodata!(pretty: true)
+    |> Json.encode()
     |> write_file(exec)
 
     exec
@@ -77,12 +79,12 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   defp write_file(data, exec) do
     exec
     |> Execution.get_plugin_param(CredoGitlab, :path)
-    |> get_path()
+    |> fix_path()
     |> File.write!(data)
   end
 
-  @spec get_path(path :: String.t() | any()) :: String.t()
-  defp get_path(path)
-  defp get_path(path) when is_binary(path) and path != "", do: path
-  defp get_path(_path), do: "report-gitlab.json"
+  @spec fix_path(path :: String.t() | any()) :: String.t()
+  defp fix_path(path)
+  defp fix_path(path) when is_binary(path) and path != "", do: path
+  defp fix_path(_path), do: "report-gitlab.json"
 end
