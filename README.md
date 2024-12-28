@@ -4,8 +4,8 @@ Generate GitLab Code Quality report for Credo.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `credo_gitlab` to your list of dependencies in `mix.exs`:
+This package available in Hex and can be installed by adding `credo_gitlab`
+to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -15,7 +15,60 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/credo_gitlab>.
+## Scope
 
+This package is used to generate a code quality report compatible
+with [GitLab format](https://docs.gitlab.com/ee/ci/testing/code_quality.html).
+
+## Configuration
+
+To generate a report a plugin should be added to your `.credo.exs` file.
+This is the basic configuration:
+
+```elixir
+%{
+  configs: [
+    name: "default",
+    plugins: [
+      {CredoGitlab, []}
+    ]
+  ]
+}
+```
+
+With this configuration, a `report-gitlab.json` will be created in the root of your project.
+To move it to another position, a `:path` param could be added:
+
+```elixir
+%{
+  configs: [
+    name: "default",
+    plugins: [
+      {CredoGitlab, [path: "credo/gitlab-report.json"]}
+    ]
+  ]
+}
+```
+
+This will create a `gitlab-report.json` file in the `credo` directory.
+
+By default, this plugin uses [Jason](https://hex.pm/packages/jason) to JSON-encode
+the issues, but you may use another lib, as long as it exports one of these functions:
+
+- `encode_to_iodata!/1`
+- `encode_to_iodata/1`
+- `encode!/1`
+- `encode/1`
+
+E.g. you may use [Jsonrs](https://hex.pm/packages/jsonrs) like this:
+
+```elixir
+%{
+  configs: [
+    name: "default",
+    plugins: [
+      {CredoGitlab, [json_library: Jsonrs]}
+    ]
+  ]
+}
+```
