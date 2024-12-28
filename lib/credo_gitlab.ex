@@ -16,6 +16,7 @@ defmodule CredoGitlab do
     exec
     |> register_default_config(@config_file)
     |> register_command("report.codequality", ReportCodequality)
-    |> register_cli_switch(:file_name, :string, :f)
+
+    # |> register_cli_switch(:file_name, :string, :f)
   end
 end

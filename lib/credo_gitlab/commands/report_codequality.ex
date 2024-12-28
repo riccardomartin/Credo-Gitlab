@@ -8,7 +8,8 @@ defmodule CredoGitlab.Commands.ReportCodequality do
 
   @spec call(exec :: Credo.Execution.t(), opts :: list()) :: Credo.Execution.t()
   def call(%Credo.Execution{} = exec, _opts) do
-    path = Execution.get_plugin_param(exec, CredoGitlab, :path) || "report-gitlab.json"
+    # path = Execution.get_plugin_param(exec, CredoGitlab, :path) || "report-gitlab.json"
+    path = "report-gitlab.json"
     json_lib = Execution.get_plugin_param(exec, CredoGitlab, :json_library) || Jason
 
     exec
