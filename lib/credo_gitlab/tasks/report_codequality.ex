@@ -6,8 +6,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
 
   alias Credo.Execution
   alias Credo.Issue
-
-  alias CredoGitlab.Encoder.Json
+  alias CredoGitlab.JsonEncoder
 
   @impl Credo.Execution.Task
   def call(exec, _opts) do
@@ -23,7 +22,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> Json.encode()
+    |> JsonEncoder.encode()
     |> write_file(exec)
 
     exec

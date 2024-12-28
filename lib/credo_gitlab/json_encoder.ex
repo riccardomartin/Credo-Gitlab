@@ -1,4 +1,4 @@
-defmodule CredoGitlab.Encoder.Json do
+defmodule CredoGitlab.JsonEncoder do
   @moduledoc """
   JSON encoder for GitLab Code Quality reports.
   """
