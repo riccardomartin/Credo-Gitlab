@@ -7,12 +7,20 @@ defmodule CredoGitlab.MixProject do
     [
       app: :credo_gitlab,
       description: description(),
-      version: "1.0.0",
+      version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
-      source_url: @source_url
+      name: "CredoGitlab",
+      source_url: @source_url,
+      docs: [
+        main: "CredoGitlab",
+        extras: ["README.md"],
+        api_reference: false,
+        authors: ["Riccardo Martin"],
+        main: "readme"
+      ]
     ]
   end
 
@@ -35,6 +43,7 @@ defmodule CredoGitlab.MixProject do
   defp package do
     [
       licenses: ["MIT"],
+      maintainers: ["Riccardo Martin"],
       links: %{
         "GitLab" => @source_url,
         "Credo" => "https://hex.pm/packages/credo"
