@@ -15,7 +15,7 @@ defmodule CredoGitlab.Commands.ReportCodequality do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> json_lib.encode_to_iodata!()
+    |> json_lib.encode_to_iodata!(pretty: true)
     |> then(&File.write!(path, &1))
 
     exec
