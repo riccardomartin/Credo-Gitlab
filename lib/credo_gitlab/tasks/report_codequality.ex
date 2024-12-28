@@ -23,7 +23,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> Jason.encode_to_iodata!()
+    |> Jason.encode_to_iodata!(pretty: true)
     |> then(&File.write!(path, &1))
 
     exec
