@@ -6,8 +6,6 @@ defmodule CredoGitlab.Commands.GitlabFormatter do
 
   alias Credo.Execution
 
-  @json Application.compile_env(:credo_gitlab, :json_library)
-
   @spec call(exec :: Credo.Execution.t(), opts :: list()) :: Credo.Execution.t()
   def call(%Credo.Execution{} = exec, _opts) do
     exec
@@ -21,11 +19,12 @@ defmodule CredoGitlab.Commands.GitlabFormatter do
 
   defp maybe_run("suggest", exec) do
     path = Execution.get_plugin_param(exec, CredoGitlab, :path) || "report-gitlab.json"
+    json_lib = Execution.get_plugin_param(exec, CredoGitlab, :json_library) || Jason
 
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> @json.encode_to_iodata!()
+    |> json_lib.encode_to_iodata!()
     |> then(&File.write!(path, &1))
 
     exec
