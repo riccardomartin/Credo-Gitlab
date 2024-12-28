@@ -85,5 +85,5 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   @spec fix_path(path :: String.t() | any()) :: String.t()
   defp fix_path(path)
   defp fix_path(path) when is_binary(path) and path != "", do: path
-  defp fix_path(_path), do: "report-gitlab.json"
+  defp fix_path(_path), do: "gl-code-quality-report.json"
 end

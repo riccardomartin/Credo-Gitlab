@@ -10,7 +10,7 @@ to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:credo_gitlab, "~> 0.1.0"}
+    {:credo_gitlab, "~> 0.1.0", only: [:dev, :test], runtime: false}
   ]
 end
 ```
@@ -36,7 +36,7 @@ This is the basic configuration:
 }
 ```
 
-With this configuration, a `report-gitlab.json` will be created in the root of your project.
+With this configuration, a `gl-code-quality-report.json` will be created in the root of your project.
 To move it to another position, a `:path` param could be added:
 
 ```elixir
