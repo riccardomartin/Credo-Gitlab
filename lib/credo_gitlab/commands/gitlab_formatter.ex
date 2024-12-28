@@ -12,6 +12,7 @@ defmodule CredoGitlab.Commands.GitlabFormatter do
   def call(%Credo.Execution{} = exec, _opts) do
     exec
     |> Execution.get_command_name()
+    |> IO.inspect(label: "COMMAND NAME")
     |> maybe_run(exec)
   end
 

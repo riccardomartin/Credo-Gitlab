@@ -14,6 +14,7 @@ defmodule CredoGitlab do
   @spec init(exec :: Credo.Execution.t()) :: Credo.Execution.t()
   def init(exec) do
     exec
+    |> IO.inspect(label: "EXEC")
     |> register_default_config(@config_file)
     |> register_command("report.codequality", GitlabFormatter)
     |> register_cli_switch(:file_name, :string, :f)
