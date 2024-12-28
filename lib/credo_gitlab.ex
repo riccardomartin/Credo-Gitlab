@@ -4,7 +4,7 @@ defmodule CredoGitlab do
   """
   import Credo.Plugin
 
-  alias CredoGitlab.Commands.GitlabFormatter
+  alias CredoGitlab.Commands.ReportCodequality
 
   @config_file File.read!(".credo.exs")
 
@@ -15,7 +15,7 @@ defmodule CredoGitlab do
   def init(exec) do
     exec
     |> register_default_config(@config_file)
-    |> register_command("report.codequality", GitlabFormatter)
+    |> register_command("report.codequality", ReportCodequality)
     |> register_cli_switch(:file_name, :string, :f)
   end
 end

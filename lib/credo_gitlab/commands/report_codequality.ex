@@ -1,4 +1,4 @@
-defmodule CredoGitlab.Commands.GitlabFormatter do
+defmodule CredoGitlab.Commands.ReportCodequality do
   @moduledoc """
   Formatter for GitLab Code Quality reports.
   """
