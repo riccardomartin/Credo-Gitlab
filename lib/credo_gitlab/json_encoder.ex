@@ -8,9 +8,10 @@ defmodule CredoGitlab.JsonEncoder do
   @doc """
   Encodes the issues to JSON.
   """
-  @spec encode(issues :: list(map())) :: String.t() | iodata() | no_return()
-  def encode(issues) do
-    CredoGitlab
+  @spec encode(issues :: list(map()), exec :: Execution.t()) ::
+          String.t() | iodata() | no_return()
+  def encode(issues, %Execution{} = exec) do
+    exec
     |> Execution.get_plugin_param(CredoGitlab, :json_library)
     |> Kernel.||(Jason)
     |> do_encode(issues)

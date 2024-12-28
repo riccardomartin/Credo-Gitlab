@@ -22,7 +22,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
-    |> JsonEncoder.encode()
+    |> JsonEncoder.encode(exec)
     |> write_file(exec)
 
     exec
