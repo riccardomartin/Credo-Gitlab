@@ -5,6 +5,7 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   use Credo.Execution.Task
 
   alias Credo.Execution
+  alias Credo.Issue
 
   @impl Credo.Execution.Task
   def call(exec, _opts) do
@@ -32,10 +33,9 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
 
   @spec format_issue(issue :: map()) :: map()
   defp format_issue(
-         %{
+         %Issue{
            check: check,
            column: column,
-           column_end: column_end,
            filename: path,
            line_no: line,
            message: description,
@@ -53,10 +53,6 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
           begin: %{
             line: line,
             column: column
-          },
-          end: %{
-            line: line,
-            column: column_end
           }
         }
       }
