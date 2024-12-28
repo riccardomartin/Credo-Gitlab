@@ -8,16 +8,6 @@ defmodule CredoGitlab.Commands.GitlabFormatter do
 
   @spec call(exec :: Credo.Execution.t(), opts :: list()) :: Credo.Execution.t()
   def call(%Credo.Execution{} = exec, _opts) do
-    exec
-    |> Execution.get_command_name()
-    |> IO.inspect(label: "COMMAND NAME")
-    |> maybe_run(exec)
-  end
-
-  @spec maybe_run(command :: String.t(), exec :: Credo.Execution.t()) :: Credo.Execution.t()
-  defp maybe_run(command, exec)
-
-  defp maybe_run("suggest", exec) do
     path = Execution.get_plugin_param(exec, CredoGitlab, :path) || "report-gitlab.json"
     json_lib = Execution.get_plugin_param(exec, CredoGitlab, :json_library) || Jason
 
@@ -29,8 +19,6 @@ defmodule CredoGitlab.Commands.GitlabFormatter do
 
     exec
   end
-
-  defp maybe_run(_command, exec), do: exec
 
   @spec format_issue(issue :: map()) :: map()
   defp format_issue(
