@@ -21,6 +21,7 @@ defmodule CredoGitlab.MixProject do
   defp deps do
     [
       {:credo, ">= 0.0.0"},
+      {:ex_doc, "~> 0.36.1"},
       {:jason, "~> 1.2", optional: true}
     ]
   end
