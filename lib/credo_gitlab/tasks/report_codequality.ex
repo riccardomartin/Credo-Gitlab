@@ -18,13 +18,11 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   defp maybe_run(command_name, exec)
 
   defp maybe_run("suggest", %Execution{} = exec) do
-    path = Execution.get_plugin_param(exec, CredoGitlab, :path) || "report-gitlab.json"
-
     exec
     |> Execution.get_issues()
     |> Enum.map(&format_issue/1)
     |> Jason.encode_to_iodata!(pretty: true)
-    |> then(&File.write!(path, &1))
+    |> write_file(exec)
 
     exec
   end
@@ -60,18 +58,31 @@ defmodule CredoGitlab.Tasks.ReportCodequality do
   end
 
   @spec fingerprint(entry :: map()) :: String.t()
-  defp fingerprint(entry) do
+  defp fingerprint(entry) when is_map(entry) do
     entry
     |> :erlang.term_to_binary()
     |> then(&:crypto.hash(:md5, &1))
     |> Base.encode16(case: :lower)
   end
 
-  @spec severity(integer()) :: String.t()
+  @spec severity(value :: integer()) :: String.t()
   defp severity(value)
-  defp severity(p) when p >= 30, do: "blocker"
-  defp severity(p) when p in 20..29, do: "critical"
-  defp severity(p) when p in 10..19, do: "major"
-  defp severity(p) when p >= 0, do: "minor"
+  defp severity(value) when value >= 30, do: "blocker"
+  defp severity(value) when value in 20..29, do: "critical"
+  defp severity(value) when value in 10..19, do: "major"
+  defp severity(value) when value >= 0, do: "minor"
   defp severity(_), do: "info"
+
+  @spec write_file(data :: iodata() | String.t(), exec :: Execution.t()) :: :ok | no_return()
+  defp write_file(data, exec) do
+    exec
+    |> Execution.get_plugin_param(CredoGitlab, :path)
+    |> get_path()
+    |> File.write!(data)
+  end
+
+  @spec get_path(path :: String.t() | any()) :: String.t()
+  defp get_path(path)
+  defp get_path(path) when is_binary(path) and path != "", do: path
+  defp get_path(_path), do: "report-gitlab.json"
 end
