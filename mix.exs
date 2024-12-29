@@ -2,6 +2,7 @@ defmodule CredoGitlab.MixProject do
   use Mix.Project
 
   @source_url "https://gitlab.com/oss5572952/credo-gitlab"
+  @mirror_url "https://github.com/riccardomartin/credo-gitlab"
 
   def project do
     [
@@ -46,6 +47,7 @@ defmodule CredoGitlab.MixProject do
       maintainers: ["Riccardo Martin"],
       links: %{
         "GitLab" => @source_url,
+        "Github" => @mirror_url,
         "Credo" => "https://hex.pm/packages/credo"
       }
     ]
